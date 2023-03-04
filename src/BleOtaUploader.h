@@ -1,6 +1,7 @@
 #pragma once
 #include "BleOtaSizes.h"
 #include "BleOtaStorage.h"
+#include "BleSender.h"
 #include <CRC32.h>
 
 #ifndef BLE_OTA_NO_BUFFER
@@ -10,9 +11,13 @@
 class BleOtaUploader
 {
 public:
-    void begin(OTAStorage& storage);
+    void begin(OTAStorage& storage, BleSender * sender);
     void pull();
     void onData(const uint8_t* data, size_t length);
+
+public:
+    bool isUploading()  const { return uploading; }
+    bool isInstalling() const { return installing; }
 
 private:
     void handleBegin(const uint8_t* data, size_t length);
@@ -28,6 +33,7 @@ private:
 #endif
     CRC32 crc;
     OTAStorage* storage;
+    BleSender * sender = NULL;
     uint32_t currentLength;
     uint32_t firmwareLength = 0;
     bool uploading = false;
@@ -38,4 +44,4 @@ private:
 #endif
 };
 
-extern BleOtaUploader bleOtaUploader;
+// extern BleOtaUploader bleOtaUploader;

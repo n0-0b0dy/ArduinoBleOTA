@@ -1,4 +1,5 @@
-#if !defined(USE_NIM_BLE_ARDUINO_LIB)
+// #if !defined(USE_NIM_BLE_ARDUINO_LIB)
+#if defined(USE_ARDUINO_BLE)
 #include "ArduinoBleOtaCommon.h"
 #include "BleOtaUploader.h"
 #include "BleOtaUuids.h"
@@ -53,7 +54,7 @@ bool ArduinoBleOTAClass::begin(OTAStorage& storage,
                                const String& hwName, BleOtaVersion hwVersion,
                                const String& swName, BleOtaVersion swVersion)
 {
-    bleOtaUploader.begin(storage);
+    bleOtaUploader.begin(storage, this);
     service.addCharacteristic(rxCharacteristic);
     service.addCharacteristic(txCharacteristic);
     rxCharacteristic.setEventHandler(BLEWritten, onWrite);

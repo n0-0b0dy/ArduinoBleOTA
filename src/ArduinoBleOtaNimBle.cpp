@@ -44,7 +44,7 @@ bool ArduinoBleOTAClass::begin(OTAStorage& storage,
     auto* server = BLEDevice::createServer();
     BLEDevice::setMTU(BLE_OTA_MTU_SIZE);
 
-    bleOtaUploader.begin(storage);
+    bleOtaUploader.begin(storage, this);
     auto* service = server->createService(BLE_OTA_SERVICE_UUID);
 
     auto* rxCharacteristic = service->createCharacteristic(

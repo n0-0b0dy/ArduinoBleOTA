@@ -22,7 +22,7 @@ inline bool advertiseBle(const std::string& deviceName,
 
     NimBLEAdvertisementData secondaryAdvertisementData{};
     secondaryAdvertisementData.setShortName(deviceName);
-    secondaryAdvertisementData.setCompleteServices(NimBLEUUID(secondaryUUID));    
+    secondaryAdvertisementData.setCompleteServices(NimBLEUUID(secondaryUUID));
     advertising->setScanResponseData(secondaryAdvertisementData);
 
     return advertising->start();
@@ -33,7 +33,7 @@ inline bool advertiseBle(const std::string& deviceName,
 {
     return advertiseBle(deviceName, BLE_OTA_SERVICE_UUID, secondaryUUID);
 }
-#else
+#elif defined(USE_ARDUINO_BLE)
 inline bool initBle(const char* deviceName)
 {
     if (!BLE.begin())

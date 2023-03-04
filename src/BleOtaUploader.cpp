@@ -1,5 +1,5 @@
 #include "BleOtaUploader.h"
-#include "ArduinoBleOTA.h"
+// #include "ArduinoBleOTA.h"
 #include "BleOtaUtils.h"
 
 namespace
@@ -25,9 +25,10 @@ struct BeginResponse
 #pragma pack(pop)
 }
 
-void BleOtaUploader::begin(OTAStorage& storage)
+void BleOtaUploader::begin(OTAStorage& storage, BleSender * bleSender)
 {
     this->storage = &storage;
+    this->sender = bleSender;
 }
 
 void BleOtaUploader::pull()
@@ -184,7 +185,10 @@ void BleOtaUploader::send(uint8_t head)
 
 void BleOtaUploader::send(const uint8_t* data, size_t length)
 {
-    ArduinoBleOTA.send(data, length);
+    // ArduinoBleOTA.send(data, length);
+    if(sender != NULL){
+        sender->send(data, length);
+    }
 }
 
 void BleOtaUploader::terminateUpload()
@@ -222,4 +226,4 @@ void BleOtaUploader::flushBuffer()
 }
 #endif
 
-BleOtaUploader bleOtaUploader{};
+// BleOtaUploader bleOtaUploader{};

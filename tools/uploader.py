@@ -143,7 +143,9 @@ def upload(rx_char, tx_char, path):
 
             uploaded_len += len(data)
             crc = zlib.crc32(data, crc)
-            print("Uploaded: " + str(uploaded_len) + "/" + str(firmware_len))
+            print("Uploaded: {}/{} ({}%)".format(
+                        uploaded_len, firmware_len,
+                        100*uploaded_len/firmware_len))
 
     rx_char.value = int_to_u8_bytes(END) + int_to_u32_bytes(crc)
     if not handleResponse(tx_char.value):

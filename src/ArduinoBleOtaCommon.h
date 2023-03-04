@@ -1,11 +1,12 @@
 #pragma once
 #include "BleOtaStorage.h"
 #include "BleOtaVersion.h"
+#include "BleSender.h"
+#include "BleOtaUploader.h"
 #include <ArduinoBLE.h>
 
-class BleOtaUploader;
 
-class ArduinoBleOTAClass
+class ArduinoBleOTAClass: public BleSender
 {
 public:
     bool begin(const String& deviceName, OTAStorage& storage);
@@ -19,10 +20,12 @@ public:
     void pull();
 
 private:
-    friend BleOtaUploader;
     void begin(const String &hwName, BleOtaVersion hwVersion,
                const String &swName, BleOtaVersion swVersion);
-    void send(const uint8_t* data, size_t length);
+    void send(const uint8_t* data, size_t length) override;
+
+protected:
+    BleOtaUploader bleOtaUploader;
 };
 
 extern ArduinoBleOTAClass ArduinoBleOTA;
